@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy: #0D1B2A;
+      --navy2: #1E3045;
+      --navy3: #152638;
+      --gold: #C9A84C;
+      --gold2: #E8C96A;
+      --offwhite: #F0EDE6;
+      --muted: #8A9BB0;
+      --card-bg: #162032;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(13, 27, 42, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+      transition: padding 0.3s;
+    }
+
+    nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+
+    nav ul li a {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul li a:hover {
+      color: var(--gold);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(ellipse 70% 60% at 80% 40%, rgba(201, 168, 76, 0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 10% 80%, rgba(30, 48, 69, 0.6) 0%, transparent 70%);
+    }
+
+    .hero-line {
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      width: 1px;
+      height: 160px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      opacity: 0.5;
+    }
+
+    #hero .eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    #hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--offwhite);
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    #hero h1 span {
+      color: var(--gold);
+    }
+
+    #hero .subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 300;
+      color: var(--muted);
+      margin-top: 20px;
+      max-width: 540px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s forwards;
+    }
+
+    #hero .hero-ctas {
+      display: flex;
+      gap: 16px;
+      margin-top: 44px;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.8s forwards;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 13px 30px;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold2);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--offwhite);
+      padding: 13px 30px;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(240, 237, 230, 0.3);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 1;
+    }
+
+    .scroll-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: scrollBounce 1.6s ease-in-out infinite;
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--offwhite);
+      margin-bottom: 60px;
+      line-height: 1.15;
+    }
+
+    .section-title em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--navy3);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .about-text p strong {
+      color: var(--offwhite);
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(201, 168, 76, 0.12);
+      border-radius: 8px;
+      padding: 28px 24px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── PROJECTS ── */
+    #projects {
+      background: var(--navy);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    /* FLIP CARD */
+    .flip-card {
+      height: 280px;
+      perspective: 1200px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front,
+    .flip-back {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      padding: 30px;
+    }
+
+    .flip-front {
+      background: var(--card-bg);
+      border: 1px solid rgba(201, 168, 76, 0.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .flip-back {
+      background: var(--gold);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: var(--navy);
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: rgba(201, 168, 76, 0.12);
+      color: var(--gold);
+      margin-bottom: 14px;
+      align-self: flex-start;
+    }
+
+    .flip-back .card-tag {
+      background: rgba(13, 27, 42, 0.15);
+      color: var(--navy);
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--offwhite);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .flip-back .card-title {
+      color: var(--navy);
+      font-size: 1.1rem;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .flip-back .card-desc {
+      color: rgba(13, 27, 42, 0.75);
+      font-size: 0.82rem;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .card-link {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--gold);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s;
+    }
+
+    .card-link:hover {
+      gap: 10px;
+    }
+
+    .flip-hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+
+    .flip-back .stack-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .stack-pill {
+      background: rgba(13, 27, 42, 0.15);
+      color: var(--navy);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 3px;
+      letter-spacing: 0.3px;
+    }
+
+    .flip-back .cta {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--navy);
+      border: 1.5px solid var(--navy);
+      border-radius: 4px;
+      padding: 8px 16px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 14px;
+      transition: background 0.2s;
+    }
+
+    .flip-back .cta:hover {
+      background: rgba(13, 27, 42, 0.1);
+    }
+
+    /* featured card */
+    .flip-card.featured {
+      grid-column: span 2;
+      height: 240px;
+    }
+
+    .flip-card.featured .card-title {
+      font-size: 1.6rem;
+    }
+
+    /* ── SKILLS ── */
+    #skills {
+      background: var(--navy3);
+    }
+
+    .skills-container {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .skill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .skill-row-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      min-width: 140px;
+    }
+
+    .skill-pill {
+      background: var(--card-bg);
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      color: var(--offwhite);
+      font-size: 0.82rem;
+      font-weight: 400;
+      padding: 7px 16px;
+      border-radius: 100px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .skill-pill:hover {
+      background: rgba(201, 168, 76, 0.1);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience {
+      background: var(--navy);
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 52px;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -36px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--navy);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.2);
+    }
+
+    .timeline-date {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .timeline-role {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--offwhite);
+      margin-bottom: 4px;
+    }
+
+    .timeline-org {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .timeline-bullets {
+      list-style: none;
+    }
+
+    .timeline-bullets li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .timeline-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.75rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--navy3);
+      text-align: center;
+    }
+
+    #contact .section-title {
+      margin-bottom: 20px;
+    }
+
+    #contact p {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 44px;
+      line-height: 1.7;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .contact-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card-bg);
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      color: var(--offwhite);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 12px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s, color 0.2s;
+    }
+
+    .contact-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    .contact-chip svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 48px;
+      border-top: 1px solid rgba(201, 168, 76, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    footer .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scrollBounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(8px);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav {
+        padding: 16px 24px;
+      }
+
+      nav ul {
+        gap: 18px;
+      }
+
+      #hero,
+      section {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .flip-card.featured {
+        grid-column: span 1;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">AM.</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-line"></div>
+    <span class="eyebrow">Front End &amp; Cross-Platform Developer</span>
+    <h1>Ahmed<br />Mohamed<br /><span>Maree.</span></h1>
+    <p class="subtitle">I build responsive web apps and cross-platform mobile experiences — from AI-powered legal SaaS
+      to consumer apps that feel fast and polished.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-dot"></div>
+      scroll
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <span class="section-label reveal">Who I Am</span>
+    <h2 class="section-title reveal">Cairo-based developer<br /><em>building the future</em></h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <strong>Front End & Cross-Platform Developer</strong> with a Computer Engineering degree from Ain Shams
+          University and hands-on training at ITI's intensive code camp.</p>
+        <p>I specialize in <strong>React.js, Next.js</strong> on the web and <strong>Flutter & React Native</strong> on
+          mobile — combining clean architecture with polished UI and AI integrations to ship products that are fast,
+          accessible, and real-world ready.</p>
+        <p>My flagship project, <strong>LegalMind AI</strong>, is a full AI-powered legal SaaS platform and mobile app —
+          built from the ground up with RAG search, biometric auth, and real-time collaboration.</p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-card">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Full-Stack Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Tech Internships</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Platforms (Web + Mobile)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">AI</div>
+          <div class="stat-label">Powered App Development</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <span class="section-label reveal">Work</span>
+    <h2 class="section-title reveal">Selected <em>Projects</em></h2>
+    <div class="projects-grid">
+
+      <!-- LegalMind Web - Featured -->
+      <div class="flip-card featured reveal">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div>
+              <span class="card-tag">Graduation Project · Web SaaS</span>
+              <div class="card-title">LegalMind AI — Legal Practice Platform</div>
+              <p class="card-desc">A bilingual Arabic/English AI-powered legal SaaS. Features RAG legal research, OCR
+                contract analysis, adversarial "Opposing Counsel" agent, multi-tenant RBAC, Stripe billing, and PWA
+                offline support.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-link">View on GitHub →</a>
+              <span class="flip-hint">Hover to see stack</span>
+            </div>
+          </div>
+          <div class="flip-back">
+            <div>
+              <span class="card-tag">Next.js · React 19 · Supabase</span>
+              <div class="card-title">Tech Stack</div>
+              <div class="stack-list">
+                <span class="stack-pill">Next.js 16</span>
+                <span class="stack-pill">React 19</span>
+                <span class="stack-pill">Supabase + PGVector</span>
+                <span class="stack-pill">LangChain</span>
+                <span class="stack-pill">Google Gemini API</span>
+                <span class="stack-pill">Tailwind CSS v4</span>
+                <span class="stack-pill">Stripe</span>
+                <span class="stack-pill">Serwist PWA</span>
+                <span class="stack-pill">Tesseract OCR</span>
+                <span class="stack-pill">Framer Motion</span>
+              </div>
+            </div>
+            <a href="https://github.com/AhmedMaree/legalmind-web/" class="cta">Open Repository →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- LegalMind Mobile -->
+      <div class="flip-card reveal">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div>
+              <span class="card-tag">Graduation Project · Mobile</span>
+              <div class="card-title">LegalMind AI — Mobile App</div>
+              <p class="card-desc">Cross-platform iOS/Android workspace for lawyers. Real-time AI streaming, biometric +
+                TOTP MFA, Supabase Realtime sync, OCR document vault, and Stripe subscriptions.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-link">View on GitHub →</a>
+              <span class="flip-hint">Hover to see stack</span>
+            </div>
+          </div>
+          <div class="flip-back">
+            <div>
+              <span class="card-tag">Flutter · Dart · Supabase</span>
+              <div class="card-title">Tech Stack</div>
+              <div class="stack-list">
+                <span class="stack-pill">Flutter</span>
+                <span class="stack-pill">Dart</span>
+                <span class="stack-pill">Supabase Auth</span>
+                <span class="stack-pill">GoRouter</span>
+                <span class="stack-pill">Provider</span>
+                <span class="stack-pill">Gemini AI</span>
+                <span class="stack-pill">Stripe SDK</span>
+                <span class="stack-pill">local_auth (FaceID)</span>
+                <span class="stack-pill">flutter_local_notifications</span>
+              </div>
+            </div>
+            <a href="https://github.com/AhmedMaree/legalmind-mobile/" class="cta">Open Repository →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ServeNow -->
+      <div class="flip-card reveal">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div>
+              <span class="card-tag">Web App</span>
+              <div class="card-title">ServeNow — Service Booking App</div>
+              <p class="card-desc">Bilingual (EN/AR) booking platform with RTL mirroring, dual payment gateways (Stripe
+                + PayPal), Firebase Auth, and React Context state management.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-link">View on GitHub →</a>
+              <span class="flip-hint">Hover to see stack</span>
+            </div>
+          </div>
+          <div class="flip-back">
+            <div>
+              <span class="card-tag">React · Vite · MUI v5</span>
+              <div class="card-title">Tech Stack</div>
+              <div class="stack-list">
+                <span class="stack-pill">React.js</span>
+                <span class="stack-pill">Vite</span>
+                <span class="stack-pill">Material UI v5</span>
+                <span class="stack-pill">Firebase Auth</span>
+                <span class="stack-pill">Stripe Elements</span>
+                <span class="stack-pill">PayPal SDK</span>
+                <span class="stack-pill">i18next</span>
+                <span class="stack-pill">stylis-plugin-rtl</span>
+              </div>
+            </div>
+            <a href="https://github.com/AhmedMaree/Service-Booking-App/" class="cta">Open Repository →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CineMate -->
+      <div class="flip-card reveal">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div>
+              <span class="card-tag">Web App</span>
+              <div class="card-title">CineMate — Movie Catalog</div>
+              <p class="card-desc">Movie discovery and CRUD catalog with Next.js 14, multi-provider OAuth (Google,
+                GitHub) via NextAuth.js, and favorites in HTTP-only cookies.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-link">View on GitHub →</a>
+              <span class="flip-hint">Hover to see stack</span>
+            </div>
+          </div>
+          <div class="flip-back">
+            <div>
+              <span class="card-tag">Next.js 14 · NextAuth · MUI</span>
+              <div class="card-title">Tech Stack</div>
+              <div class="stack-list">
+                <span class="stack-pill">Next.js 14</span>
+                <span class="stack-pill">NextAuth.js</span>
+                <span class="stack-pill">Material UI v5</span>
+                <span class="stack-pill">HTTP-only Cookies</span>
+                <span class="stack-pill">Next.js API Routes</span>
+              </div>
+            </div>
+            <a href="#" class="cta">Open Repository →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MovieExplorer -->
+      <div class="flip-card reveal">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div>
+              <span class="card-tag">Mobile App</span>
+              <div class="card-title">Anime MovieExplorer</div>
+              <p class="card-desc">Cross-platform iOS/Android anime discovery app consuming the TMDB API. Includes
+                Firebase Auth, AsyncStorage caching, and dynamic Light/Dark theming.</p>
+            </div>
+            <div class="card-footer">
+              <a href="https://github.com/AhmedMaree/ReactNativeProject/" class="card-link">View on GitHub →</a>
+              <span class="flip-hint">Hover to see stack</span>
+            </div>
+          </div>
+          <div class="flip-back">
+            <div>
+              <span class="card-tag">React Native · Expo · Firebase</span>
+              <div class="card-title">Tech Stack</div>
+              <div class="stack-list">
+                <span class="stack-pill">React Native</span>
+                <span class="stack-pill">Expo</span>
+                <span class="stack-pill">Firebase Auth</span>
+                <span class="stack-pill">TMDB API</span>
+                <span class="stack-pill">AsyncStorage</span>
+                <span class="stack-pill">React Context</span>
+                <span class="stack-pill">React Native Paper</span>
+              </div>
+            </div>
+            <a href="https://github.com/AhmedMaree/ReactNativeProject/" class="cta">Open Repository →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <span class="section-label reveal">Expertise</span>
+    <h2 class="section-title reveal">Technical <em>Skills</em></h2>
+    <div class="skills-container">
+      <div class="skill-row reveal">
+        <span class="skill-row-label">Languages</span>
+        <span class="skill-pill">JavaScript ES6+</span>
+        <span class="skill-pill">TypeScript</span>
+        <span class="skill-pill">HTML5</span>
+        <span class="skill-pill">CSS3</span>
+        <span class="skill-pill">Dart</span>
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">SQL</span>
+      </div>
+      <div class="skill-row reveal">
+        <span class="skill-row-label">Front-End</span>
+        <span class="skill-pill">React.js</span>
+        <span class="skill-pill">Next.js</span>
+        <span class="skill-pill">Tailwind CSS</span>
+        <span class="skill-pill">Material UI</span>
+        <span class="skill-pill">Bootstrap</span>
+        <span class="skill-pill">Sass</span>
+        <span class="skill-pill">Framer Motion</span>
+      </div>
+      <div class="skill-row reveal">
+        <span class="skill-row-label">Mobile</span>
+        <span class="skill-pill">Flutter</span>
+        <span class="skill-pill">React Native</span>
+        <span class="skill-pill">Expo</span>
+        <span class="skill-pill">Firebase</span>
+        <span class="skill-pill">GoRouter</span>
+      </div>
+      <div class="skill-row reveal">
+        <span class="skill-row-label">Backend & DB</span>
+        <span class="skill-pill">Node.js</span>
+        <span class="skill-pill">Express.js</span>
+        <span class="skill-pill">Supabase</span>
+        <span class="skill-pill">MongoDB</span>
+        <span class="skill-pill">PostgreSQL</span>
+      </div>
+      <div class="skill-row reveal">
+        <span class="skill-row-label">AI & Tools</span>
+        <span class="skill-pill">LangChain</span>
+        <span class="skill-pill">Google Gemini API</span>
+        <span class="skill-pill">RAG / PGVector</span>
+        <span class="skill-pill">Prompt Engineering</span>
+        <span class="skill-pill">Git</span>
+        <span class="skill-pill">PWA</span>
+        <span class="skill-pill">Agile</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <span class="section-label reveal">Background</span>
+    <h2 class="section-title reveal">Experience &amp; <em>Education</em></h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Jan 2026 – Jun 2026</div>
+        <div class="timeline-role">Front-End & Cross-Platform Development Intern</div>
+        <div class="timeline-org">Information Technology Institute (ITI) — Intensive Code Camp</div>
+        <ul class="timeline-bullets">
+          <li>Built responsive web interfaces with React.js and Next.js, applying component-based architecture.</li>
+          <li>Developed cross-platform mobile apps with React Native and Flutter, integrating Firebase.</li>
+          <li>Applied unit testing, design patterns, Git, and explored GenAI development tools.</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Aug 2024 – Sep 2024</div>
+        <div class="timeline-role">Full Stack Web Developer</div>
+        <div class="timeline-org">Information Technology Institute (ITI)</div>
+        <ul class="timeline-bullets">
+          <li>Trained in full-stack web development on real-world projects using HTML, CSS, JavaScript, and React.</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Jul 2024 – Aug 2024</div>
+        <div class="timeline-role">Front End Developer</div>
+        <div class="timeline-org">National Telecommunication Institute (NTI)</div>
+        <ul class="timeline-bullets">
+          <li>Built foundational front-end skills in HTML, CSS, and JavaScript through an immersive internship.</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Sep 2019 – Jun 2024</div>
+        <div class="timeline-role">B.Sc. Computer Engineering</div>
+        <div class="timeline-org">Ain Shams University, Cairo, Egypt</div>
+        <ul class="timeline-bullets">
+          <li>Graduated with a degree in Computer Engineering, specializing in software development and system design.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <span class="section-label reveal">Let's Talk</span>
+    <h2 class="section-title reveal">Open to <em>Opportunities</em></h2>
+    <p class="reveal">Whether you have a project in mind, a role to fill, or just want to connect — my inbox is always
+      open.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:ahmedmohamed56750@gmail.com" class="contact-chip">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="m2 7 10 7 10-7" />
+        </svg>
+        ahmedmohamed56750@gmail.com
+      </a>
+      <a href="www.linkedin.com/in/ahmedmabdelrahim/" target="_blank" class="contact-chip">
+        <svg viewBox="0 0 24 24">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+          <rect x="2" y="9" width="4" height="12" />
+          <circle cx="4" cy="4" r="2" />
+        </svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/AhmedMaree/" target="_blank" class="contact-chip">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+        </svg>
+        GitHub
+      </a>
+      <a href="tel:+201272861343" class="contact-chip">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+        </svg>
+        +20 127 286 1343
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo">AM.</div>
+    <p>© 2026 Ahmed Mohamed Abdelrahim Maree · Cairo, Egypt</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal, .timeline-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Nav shrink on scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.padding = window.scrollY > 60 ? '12px 48px' : '18px 48px';
+    });
+  </script>
+</body>
+
+</html>
